@@ -1,0 +1,22 @@
+2024-09-10 15:08:43,059 INFO o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener [File Watcher] Restarting due to 12 class path changes (0 additions, 0 deletions, 12 modifications)
+2024-09-10 15:08:43,092 INFO o.s.b.a.n.Neo4jSpringJclLogging$SpringJclLogger [Thread-17] Closing driver instance 1985365253
+2024-09-10 15:08:43,102 INFO o.s.b.a.n.Neo4jSpringJclLogging$SpringJclLogger [Thread-17] Closing connection pool towards localhost:7687
+2024-09-10 15:08:43,396 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-09-10 15:08:43,396 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-09-10 15:08:43,400 INFO o.s.b.StartupInfoLogger [restartedMain] Starting NeometroapiApplication using Java 21.0.4 with PID 1511 (/Users/mandar.risbud/Documents/MandarR_Backup/Mandar/Java/metro/neometroapi/target/classes started by mandar.risbud in /Users/mandar.risbud/Documents/MandarR_Backup/Mandar/Java/metro/neometroapi)
+2024-09-10 15:08:43,400 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2024-09-10 15:08:43,480 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data Neo4j repositories in DEFAULT mode.
+2024-09-10 15:08:43,485 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 4 ms. Found 0 Neo4j repository interfaces.
+2024-09-10 15:08:43,486 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data Neo4j repositories in DEFAULT mode.
+2024-09-10 15:08:43,488 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 1 ms. Found 3 Neo4j repository interfaces.
+2024-09-10 15:08:43,554 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port 8083 (http)
+2024-09-10 15:08:43,579 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 178 ms
+2024-09-10 15:08:43,597 INFO o.s.b.a.n.Neo4jSpringJclLogging$SpringJclLogger [restartedMain] Direct driver instance 926423542 created for server address localhost:7687
+2024-09-10 15:08:43,606 WARN o.s.c.l.LogAccessor [restartedMain] The entity com.neometro.neometroapi.beans.Line is using a Long value for storing internally generated Neo4j ids. The Neo4j internal Long Ids are deprecated, please consider using an external ID generator.
+2024-09-10 15:08:43,607 WARN o.s.b.d.a.OptionalLiveReloadServer [restartedMain] Unable to start LiveReload server
+2024-09-10 15:08:43,608 WARN o.s.c.l.LogAccessor [restartedMain] The entity com.neometro.neometroapi.beans.Station is using a Long value for storing internally generated Neo4j ids. The Neo4j internal Long Ids are deprecated, please consider using an external ID generator.
+2024-09-10 15:08:43,682 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port 8083 (http) with context path '/'
+2024-09-10 15:08:43,684 INFO o.s.b.StartupInfoLogger [restartedMain] Started NeometroapiApplication in 0.298 seconds (process running for 57333.728)
+2024-09-10 15:08:43,685 INFO o.s.b.d.a.ConditionEvaluationDeltaLoggingListener [restartedMain] Condition evaluation unchanged
+2024-09-10 15:08:43,685 INFO c.n.n.NeometroapiApplication [restartedMain] Application Started
+2024-09-10 15:25:02,112 INFO o.s.b.a.n.Neo4jSpringJclLogging$SpringJclLogger [SpringApplicationShutdownHook] Closing driver instance 926423542

@@ -1,0 +1,37 @@
+2024-09-08 16:31:58,056 INFO o.s.b.StartupInfoLogger [restartedMain] Starting NeometroapiApplication using Java 21.0.4 with PID 98551 (/Users/mandar.risbud/Documents/MandarR_Backup/Mandar/Java/metro/neometroapi/target/classes started by mandar.risbud in /Users/mandar.risbud/Documents/MandarR_Backup/Mandar/Java/metro/neometroapi)
+2024-09-08 16:31:58,061 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2024-09-08 16:31:58,082 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-09-08 16:31:58,083 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-09-08 16:31:58,428 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data Neo4j repositories in DEFAULT mode.
+2024-09-08 16:31:58,563 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 131 ms. Found 0 Neo4j repository interfaces.
+2024-09-08 16:31:58,566 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data Neo4j repositories in DEFAULT mode.
+2024-09-08 16:31:58,574 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 7 ms. Found 3 Neo4j repository interfaces.
+2024-09-08 16:31:58,837 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port 8083 (http)
+2024-09-08 16:31:58,891 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 807 ms
+2024-09-08 16:31:59,054 INFO o.s.b.a.n.Neo4jSpringJclLogging$SpringJclLogger [restartedMain] Direct driver instance 291469408 created for server address localhost:7687
+2024-09-08 16:31:59,111 WARN o.s.c.l.LogAccessor [restartedMain] The entity com.neometro.neometroapi.beans.Line is using a Long value for storing internally generated Neo4j ids. The Neo4j internal Long Ids are deprecated, please consider using an external ID generator.
+2024-09-08 16:31:59,129 WARN o.s.b.d.a.OptionalLiveReloadServer [restartedMain] Unable to start LiveReload server
+2024-09-08 16:31:59,131 WARN o.s.c.l.LogAccessor [restartedMain] The entity com.neometro.neometroapi.beans.Station is using a Long value for storing internally generated Neo4j ids. The Neo4j internal Long Ids are deprecated, please consider using an external ID generator.
+2024-09-08 16:31:59,392 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port 8083 (http) with context path '/'
+2024-09-08 16:31:59,397 INFO o.s.b.StartupInfoLogger [restartedMain] Started NeometroapiApplication in 1.561 seconds (process running for 8.908)
+2024-09-08 16:31:59,399 INFO c.n.n.NeometroapiApplication [restartedMain] Application Started
+2024-09-08 16:32:22,268 INFO o.s.w.s.FrameworkServlet [http-nio-8083-exec-1] Initializing Servlet 'dispatcherServlet'
+2024-09-08 16:32:22,270 INFO o.s.w.s.FrameworkServlet [http-nio-8083-exec-1] Completed initialization in 1 ms
+2024-09-08 16:32:22,317 INFO c.n.n.w.Neocontroller [http-nio-8083-exec-1] In /getlineinfo; linename = Line-2
+2024-09-08 16:32:22,317 WARN c.n.n.w.Neocontroller [http-nio-8083-exec-1] ***
+2024-09-08 16:32:22,317 WARN c.n.n.w.Neocontroller [http-nio-8083-exec-1] in /getlineinfo API call
+2024-09-08 16:32:22,317 WARN c.n.n.w.Neocontroller [http-nio-8083-exec-1] ***
+2024-09-08 16:32:22,517 WARN o.s.c.l.LogAccessor [http-nio-8083-exec-1] Neo.ClientNotification.Statement.FeatureDeprecationWarning: This feature is deprecated and will be removed in future versions.
+	MATCH (line:`Line`) WHERE line.name = $name RETURN line{.colorcode, .distanceCovered, .interconnectingLines, .isActive, .name, .numberOfStations, .stations, .totalStationCount, __nodeLabels__: labels(line), __internalNeo4jId__: id(line), __elementId__: id(line)}
+	                                                                                                                                                                                                                                    ^
+The query used a deprecated function: `id`.
+2024-09-08 16:32:22,517 WARN o.s.c.l.LogAccessor [http-nio-8083-exec-1] Neo.ClientNotification.Statement.FeatureDeprecationWarning: This feature is deprecated and will be removed in future versions.
+	MATCH (line:`Line`) WHERE line.name = $name RETURN line{.colorcode, .distanceCovered, .interconnectingLines, .isActive, .name, .numberOfStations, .stations, .totalStationCount, __nodeLabels__: labels(line), __internalNeo4jId__: id(line), __elementId__: id(line)}
+	                                                                                                                                                                                                                                                             ^
+The query used a deprecated function: `id`.
+2024-09-08 16:32:22,518 WARN o.s.c.l.LogAccessor [http-nio-8083-exec-1] Neo.ClientNotification.Statement.UnknownPropertyKeyWarning: The provided property key is not in the database
+	MATCH (line:`Line`) WHERE line.name = $name RETURN line{.colorcode, .distanceCovered, .interconnectingLines, .isActive, .name, .numberOfStations, .stations, .totalStationCount, __nodeLabels__: labels(line), __internalNeo4jId__: id(line), __elementId__: id(line)}
+	                                                                                       ^
+One of the property names in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing property name is: interconnectingLines)
+2024-09-08 16:32:53,010 INFO o.s.b.a.n.Neo4jSpringJclLogging$SpringJclLogger [SpringApplicationShutdownHook] Closing driver instance 291469408
+2024-09-08 16:32:53,013 INFO o.s.b.a.n.Neo4jSpringJclLogging$SpringJclLogger [SpringApplicationShutdownHook] Closing connection pool towards localhost:7687
