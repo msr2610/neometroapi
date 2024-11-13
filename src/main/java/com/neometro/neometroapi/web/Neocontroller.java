@@ -86,7 +86,7 @@ public class Neocontroller {
         */
         //return responseEntity;
         return lines;
-    } // end of /getrestmetrolineslist
+    } // end of /getRestMetroLinesList
 
     @GetMapping(value="/getstationslist",produces="application/json")
     public List<String> getStationsList(@RequestParam String linename) {
