@@ -127,31 +127,30 @@ public class Neocontroller {
 
 
     @GetMapping("/islineactive")
-    public ResponseEntity<String> isLineActive(@RequestParam String linename) {
+    // public ResponseEntity<String> isLineActive(@RequestParam String linename) throws IllegalArgumentException {
+    public Boolean isLineActive(@RequestParam String linename) throws IllegalArgumentException {
 
         String strResult = "";
 
         if (linename == null || linename.isEmpty()) {
-            return ResponseEntity.badRequest().body("Invalid input: provided metroline name is null or empty");
+
+            throw new IllegalArgumentException("line name can not be null");
         }
 
 
         Line line = linesRepository.findByName(linename);
 
         if (line == null) {
-            return ResponseEntity.badRequest().body("No data found for metro line " + linename);
+            // return ResponseEntity.badRequest().body("No data found for any metro line");
+            throw new NoSuchElementException("Line(s) data not found");
         }
 
         if (line.getIsActive()==1) {
-            strResult = "true";
+            return Boolean.valueOf("true");
         }
         else {
-            strResult = "false";
+            return Boolean.valueOf("false");
         }
-
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(strResult, HttpStatus.OK);
-
-        return responseEntity;
 
     } // end of /isLineActive
 
