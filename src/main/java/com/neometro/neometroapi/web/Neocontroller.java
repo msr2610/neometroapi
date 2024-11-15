@@ -128,7 +128,7 @@ public class Neocontroller {
 
     @GetMapping("/islineactive")
     // public ResponseEntity<String> isLineActive(@RequestParam String linename) throws IllegalArgumentException {
-    public Boolean isLineActive(@RequestParam String linename) throws IllegalArgumentException {
+    public ResponseEntity<IsActiveResponse> isLineActive(@RequestParam String linename) throws IllegalArgumentException {
 
         String strResult = "";
 
@@ -136,7 +136,6 @@ public class Neocontroller {
 
             throw new IllegalArgumentException("line name can not be null");
         }
-
 
         Line line = linesRepository.findByName(linename);
 
@@ -146,10 +145,13 @@ public class Neocontroller {
         }
 
         if (line.getIsActive()==1) {
-            return Boolean.valueOf("true");
+
+            IsActiveResponse response = new IsActiveResponse(Boolean.valueOf("true"));
+            return ResponseEntity.ok(response);
         }
         else {
-            return Boolean.valueOf("false");
+            IsActiveResponse response = new IsActiveResponse(Boolean.valueOf("false"));
+            return ResponseEntity.ok(response);
         }
 
     } // end of /isLineActive
