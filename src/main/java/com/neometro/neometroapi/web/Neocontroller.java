@@ -42,7 +42,6 @@ public class Neocontroller {
         return "helloworld";
     } //
 
-    //@Operation(summary = "Get a information about given Metro line (such as line name, color code, stations on the line etc")
     @GetMapping(value="/getlineinfo")
     public Line getLineInfoJson(@RequestParam String linename) throws IllegalArgumentException {
 
@@ -66,7 +65,6 @@ public class Neocontroller {
     } // end of /getLineInfojson
 
     @GetMapping("/getrestmetrolineslist")
-    // public ResponseEntity<String> getRestMetroLinesList() throws IllegalArgumentException {
     public List<Line> getRestMetroLinesList() throws IllegalArgumentException {
 
         String strResult = "";
@@ -79,12 +77,6 @@ public class Neocontroller {
             throw new NoSuchElementException("Line(s) data not found");
         }
 
-        /*strResult = lines.stream()
-                .map(Line::getName) // Extracting the name property
-                .collect(Collectors.joining(", "));
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(strResult, HttpStatus.OK);
-        */
-        //return responseEntity;
         return lines;
     } // end of /getRestMetroLinesList
 
@@ -127,7 +119,6 @@ public class Neocontroller {
 
 
     @GetMapping("/islineactive")
-    // public ResponseEntity<String> isLineActive(@RequestParam String linename) throws IllegalArgumentException {
     public ResponseEntity<IsActiveResponse> isLineActive(@RequestParam String linename) throws IllegalArgumentException {
 
         String strResult = "";
