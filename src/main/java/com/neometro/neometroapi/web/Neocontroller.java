@@ -4,24 +4,18 @@ import com.neometro.neometroapi.beans.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+//import io.swagger.v3.oas.annotations.Operation;
+//import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.NoSuchElementException;
-
-
-
+import java.util.*;
 
 @RestController
+@RequestMapping("/metro")
 public class Neocontroller {
 
     private static final Logger logger = LogManager.getLogger(Neocontroller.class);
@@ -35,202 +29,91 @@ public class Neocontroller {
     @Autowired
     PathRepository pathRepository;
 
-    @RequestMapping ("/hello")
+    @GetMapping("/hello")
     public String hello() {
-
-        System.out.println("in / route of hello API");
         return "helloworld";
-    } //
+    }
 
-    @GetMapping(value="/getlineinfo")
-    public Line getLineInfoJson(@RequestParam String linename) throws IllegalArgumentException {
-
-        logger.info("In /getlineinfo; linename = " + linename);
-        logger.warn("***");
-        logger.warn("in /getlineinfo API call");
-        logger.warn("***");
-
-        if (linename == null || linename.isEmpty()) {
-
-            throw new IllegalArgumentException("line name can not be null");
-        }
-
-        Line line = linesRepository.findByName(linename);
-
-        if (line == null) {
-            throw new NoSuchElementException("Line(s) data not found");
-        }
-
-        return line;
-    } // end of /getLineInfojson
-
-    @GetMapping("/getrestmetrolineslist")
-    public List<Line> getRestMetroLinesList() throws IllegalArgumentException {
-
-        String strResult = "";
-
-
+    @GetMapping("/lines")
+    public ResponseEntity<List<Line>> getAllMetroLines() {
         List<Line> lines = linesRepository.findAll();
-
-        if (lines == null) {
-            // return ResponseEntity.badRequest().body("No data found for any metro line");
+        if (lines == null || lines.isEmpty()) {
             throw new NoSuchElementException("Line(s) data not found");
         }
+        return ResponseEntity.ok(lines);
+    }
 
-        return lines;
-    } // end of /getRestMetroLinesList
-
-    @GetMapping(value="/getstationslist",produces="application/json")
-    public List<String> getStationsList(@RequestParam String linename) {
-
-        if (linename == null || linename.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-
-        Line line = linesRepository.findByName(linename);
-        List<String> listStations = line.getStations();
-
-        return listStations;
-
-    } // end of /getStationsList
-
-
-    @GetMapping("/getInterconnectedLines")
-    public ResponseEntity<String> getInterconnectedLines(@RequestParam String linename) {
-
-        String strResult = "";
-
-        if (linename == null || linename.isEmpty()) {
-            return ResponseEntity.badRequest().body("Invalid input: provided metroline name is null or empty");
-        }
-
-
-        Line line = linesRepository.findByName(linename);
-        List<String> listInterconnectedLines = line.getInterconnectedLines();
-
-        strResult = String.join(", ", listInterconnectedLines);
-
-
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(strResult, HttpStatus.OK);
-
-        return responseEntity;
-
-    } // end of /getInterconnectedLines
-
-
-    @GetMapping("/islineactive")
-    public ResponseEntity<IsActiveResponse> isLineActive(@RequestParam String linename) throws IllegalArgumentException {
-
-        String strResult = "";
-
-        if (linename == null || linename.isEmpty()) {
-
-            throw new IllegalArgumentException("line name can not be null");
-        }
-
-        Line line = linesRepository.findByName(linename);
-
+    //@Operation(summary = "Get line info", description = "Fetches details for a metro line by name")
+    //@ApiResponse(responseCode = "200", description = "Successful operation")
+    @GetMapping("/lines/{lineName}")
+    public ResponseEntity<Line> getLineInfo(@PathVariable String lineName) {
+        Line line = linesRepository.findByName(lineName);
         if (line == null) {
-            // return ResponseEntity.badRequest().body("No data found for any metro line");
-            throw new NoSuchElementException("Line(s) data not found");
+            throw new NoSuchElementException("Line not found: " + lineName);
         }
+        return ResponseEntity.ok(line);
+    }
 
-        if (line.getIsActive()==1) {
-
-            IsActiveResponse response = new IsActiveResponse(Boolean.valueOf("true"));
-            return ResponseEntity.ok(response);
+    @GetMapping("/lines/{lineName}/stations")
+    public ResponseEntity<List<String>> getStationsForLine(@PathVariable String lineName) {
+        Line line = linesRepository.findByName(lineName);
+        if (line == null) {
+            throw new NoSuchElementException("Line not found: " + lineName);
         }
-        else {
-            IsActiveResponse response = new IsActiveResponse(Boolean.valueOf("false"));
-            return ResponseEntity.ok(response);
+        return ResponseEntity.ok(line.getStations());
+    }
+
+    @GetMapping("/lines/{lineName}/interconnections")
+    public ResponseEntity<List<String>> getInterconnectedLines(@PathVariable String lineName) {
+        Line line = linesRepository.findByName(lineName);
+        if (line == null) {
+            throw new NoSuchElementException("Line not found: " + lineName);
         }
+        return ResponseEntity.ok(line.getInterconnectedLines());
+    }
 
-    } // end of /isLineActive
-
-
-    @GetMapping("/isstationactive")
-    public ResponseEntity<String> isStationActive(@RequestParam String stationname) {
-
-        String strResult = "";
-
-        if (stationname == null || stationname.isEmpty()) {
-            return ResponseEntity.badRequest().body("Invalid input: provided station name is null or empty");
+    @GetMapping("/lines/{lineName}/status")
+    public ResponseEntity<IsActiveResponse> isLineActive(@PathVariable String lineName) {
+        Line line = linesRepository.findByName(lineName);
+        if (line == null) {
+            throw new NoSuchElementException("Line not found: " + lineName);
         }
+        boolean isActive = line.getIsActive() == 1;
+        return ResponseEntity.ok(new IsActiveResponse(isActive));
+    }
 
-
-        Station station = stationRepository.findByName(stationname);
-
+    @GetMapping("/stations/{stationName}/status")
+    public ResponseEntity<String> isStationActive(@PathVariable String stationName) {
+        Station station = stationRepository.findByName(stationName);
         if (station == null) {
-            return ResponseEntity.badRequest().body("No data found for station " + stationname);
+            return ResponseEntity.badRequest().body("No data found for station " + stationName);
         }
+        return ResponseEntity.ok(station.getId() + " " + station.getName() + " " + station.getIsActive());
+    }
 
-        strResult = station.getId() + " " + station.getName();
-
-
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(strResult, HttpStatus.OK);
-
-        return responseEntity;
-
-    } // end of /isStationActive
-
-    @GetMapping("/returnLinesOfAStation")
-    public ResponseEntity<String> returnLinesOfAStation (@RequestParam String stationname) {
-
-        String strResult = "";
-
-        if (stationname == null || stationname.isEmpty()) {
-            return ResponseEntity.badRequest().body("Invalid input: provided station name is null or empty");
-        }
-
-
-        Station station = stationRepository.findByName(stationname);
-
+    @GetMapping("/stations/{stationName}/lines")
+    public ResponseEntity<List<String>> getLinesForStation(@PathVariable String stationName) {
+        Station station = stationRepository.findByName(stationName);
         if (station == null) {
-            return ResponseEntity.badRequest().body("No data found for station " + stationname);
+            return ResponseEntity.badRequest().body(Collections.emptyList());
+        }
+        return ResponseEntity.ok(station.getLineNames());
+    }
+
+    @GetMapping("/route")
+    public ResponseEntity<PathResponse> findRoute(@RequestParam String from, @RequestParam String to) {
+        if (from == null || from.isEmpty() || to == null || to.isEmpty()) {
+            return ResponseEntity.badRequest().body(new PathResponse(List.of("Invalid input: station names cannot be empty.")));
         }
 
-        List<String> lineNames = station.getLineNames();
-
-        strResult = String.join(", ", lineNames);
-
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(strResult, HttpStatus.OK);
-
-        return responseEntity;
-
-    } // end of /returnLinesOfAStation
-
-    @GetMapping("/findPath")
-    public ResponseEntity<String> findPath(@RequestParam String fromstation, String tostation) {
-
-        String strResult = "";
-
-        if (fromstation == null || fromstation.isEmpty() || tostation == null || tostation.isEmpty()) {
-            return ResponseEntity.badRequest().body("Invalid input: provided station names are null or empty");
-        }
-
-        Iterable <Station> stations = pathRepository.findPathBetweenNodes(fromstation, tostation);
+        Iterable<Station> stations = pathRepository.findPathBetweenNodes(from, to);
 
         if (stations == null || !stations.iterator().hasNext()) {
-            return ResponseEntity.badRequest().body("No path found between stations " + fromstation + " and " + tostation );
+            return ResponseEntity.badRequest().body(new PathResponse(List.of("No path found between stations " + from + " and " + to)));
         }
 
-        Iterator<Station> iterator = stations.iterator();
-
-
-        while (iterator.hasNext()) {
-            Station station = iterator.next();
-            strResult += station.getName();
-            if (iterator.hasNext()) {
-                if (iterator.hasNext()) strResult += " --> ";
-            } // end of if
-        } // end of while
-
-
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(strResult, HttpStatus.OK);
-
-        return responseEntity;
-
-    } // end of /findPath
-
-} // end of class
-
+        List<String> path = new ArrayList<>();
+        stations.forEach(s -> path.add(s.getName()));
+        return ResponseEntity.ok(new PathResponse(path));
+    }
+}

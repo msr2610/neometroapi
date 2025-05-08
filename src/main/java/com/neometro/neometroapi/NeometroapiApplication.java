@@ -5,9 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.microsoft.applicationinsights.attach.ApplicationInsights;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.annotation.Import;
+//import org.springframework.ai.mcp.
 
 
 @SpringBootApplication
+//@Import(McpServerAutoConfiguration.class)
 public class NeometroapiApplication {
 
 	private static final Logger logger = LogManager.getLogger(NeometroapiApplication.class);
